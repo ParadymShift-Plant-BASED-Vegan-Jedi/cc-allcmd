@@ -1,0 +1,74 @@
+$initVar[user;curbal;0]
+$initVar[user;assets;0]
+$initVar[user;messagec;0]
+// unique activity block id
+$initVar[server;uabid;1]
+// 90 day count (resests at 4, changes every month)
+$initVar[server;90dc;1]
+// current month
+$initVar[server;cm;$month]
+// daily activity count
+$initVar[user;dac;1]
+// daily activity toggle
+$initVar[user;dat;0]
+// current day
+$initVar[user;curd;$day]
+$setUserVar[messagec;$sum[$getUserVar[messagec];1]]
+$if[$hasRole[$authorID;903678911391612958]==false]
+    $if[$textLength<13]
+        $let[mam;1]
+        $setUserVar[curbal;$sum[$getUserVar[curbal];1]]
+        $setUserVar[total;$sum[$getUserVar[curbal];$getUserVar[assets]]]
+    $elseIf[$textLength<26]
+        $let[mam;3]
+        $setUserVar[curbal;$sum[$getUserVar[curbal];3]]  
+        $setUserVar[total;$sum[$getUserVar[curbal];$getUserVar[assets]]]  
+    $endelseif
+    $elseif[$textLength<226]
+        $let[mam;6]
+        $setUserVar[curbal;$sum[$getUserVar[curbal];6]]
+        $setUserVar[total;$sum[$getUserVar[curbal];$getUserVar[assets]]]
+    $endelseif
+    $elseif[$textLength<601]
+        $let[mam;9]
+        $setUserVar[curbal;$sum[$getUserVar[curbal];9]]
+        $setUserVar[total;$sum[$getUserVar[curbal];$getUserVar[assets]]]
+    $endelseif
+    $elseif[$textLength>600]
+        $let[mam;12]
+        $setUserVar[curbal;$sum[$getUserVar[curbal];12]]
+        $setUserVar[total;$sum[$getUserVar[curbal];$getUserVar[assets]]]
+    $endelseif
+    $endIf
+    $increaseUserVar[curbal;$mam]
+    $setUserVar[total;$sum[$getUserVar[curbal];$getUserVar[assets]]]
+$endIf
+$if[$channelID==781731667462979597&&$random[1;1000]==1]
+    $sendMessage[$randomText[If you like balls-to-the-wall veganism, then you'll probably love it here!;Have you grabbed a lifestyle role from <#781736616569208882> yet?;Did you get your reaction roles from <#880585538783051817> yet?;Have you read the Official Guide to Not Get YEETED From The Cave? https://tinyurl.com/pdscavettngyfpsc21;It's a cave! Don't be surprised if it gets a bit muddy sometimesOUR SERVER IS NOT YOUR ADVERTISING BILLBOARD!! (unless you're a patron or have express permissions from <@&784800899373596742> ^^);Where is gen chat? IT'S RIGHT HERE! Read the channel descriptions silly #SEMI#P]]
+$endIf   
+$if[$stringStartsWith[$toLowercase[$message];yes or no]==true]
+    $onlyIf[$mentioned[1]!=undefined;please mention user]
+    $onlyIf[$hasRoles[$authorID;784817265240703006]==true; missing perms]
+    $setMessageVar[yon$mentioned[1];1]
+    $let[uid;$mentioned[1]]
+    $let[mid;$messageID]
+    $let[cid;$channelID]
+    $setUserVar[uid$uid;$uid;$uid]
+    $setUserVar[mid$uid;$mid;$uid]
+    $setUserVar[cid$uid;$cid;$uid]
+    $stop[$mention[$uid], this is a yes or no question. Be sure to answer the question by beginning your next response with either a yes or a no. Do not dodge.]
+$endIf
+$onlyIf[$getMessageVar[yon$authorID;$getUserVar[mid$authorID]]==1]
+$onlyIf[$authorID==$getUserVar[uid$authorID]]
+$if[$stringStartsWith[$toLowercase[$message];yes]!=true&&$stringStartsWith[$toLowercase[$message];no]!=true]
+    $deletecommand
+    $channelsendMessage[$getUserVar[cid$authorID];$mention, answer the question. No dodging. Yes or no?]
+$else
+   $if[$channelID==$getUserVar[cid$authorID]]
+        $sendMessage[Thank you for answering the question!]
+        $deleteMessageVar[yon$authorID;$getUserVar[mid$authorID]]
+    $else
+        $deletecommand
+        $stop[Wrong channel $username. Try again Bozo. THIS channel <#$getUserVar[cid$authorID]>]
+    $endIf
+$endIf
