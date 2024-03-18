@@ -11,8 +11,8 @@ $initVar[server;90dc;1]
 $initVar[server;cm;$month]
 // daily activity count
 $initVar[user;dac;1]
-// daily activity toggle
-$initVar[user;dat;0]
+// daily voice activity toggle
+$initVar[user;dvat;0]
 // current day
 $initVar[user;curd;$day]
 $if[$getServerVar[cm]!=$month&&$getServerVar[90dc]<3]
