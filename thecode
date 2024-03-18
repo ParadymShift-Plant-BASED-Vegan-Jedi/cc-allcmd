@@ -3,6 +3,8 @@ $initVar[user;assets;0]
 $initVar[user;messagec;0]
 // unique activity block id
 $initVar[server;uabid;1]
+// current activity block
+$initVar[user;cab;$getServerVar[uabid]]
 // 90 day count (resests at 4, changes every month)
 $initVar[server;90dc;1]
 // current month
@@ -13,6 +15,22 @@ $initVar[user;dac;1]
 $initVar[user;dat;0]
 // current day
 $initVar[user;curd;$day]
+$if[$getServerVar[cm]!=$month&&$getServerVar[90dc]<3]
+    $setServerVar[cm;$month]
+    $increaseServerVar[90dc;1]
+$elseif[$getServerVar[cm]!=$month&&$getServerVar[90dc]>2]
+    $setServerVar[90dc;1]
+    $increaseServerVar[uabid;1]
+    $setServerVar[cm;$month]
+$endelseif
+$endIf
+$if$getServerVar[uabid]!=$getUserVar[cab]]
+    $setUserVar[dac;1]
+    $setUserVar[cab;$getServerVar[uabid]]
+$elseif[$getUserVar[curd]!=$day]
+    $increaseUserVar[dac;1]
+$endelseif
+$endIf
 $setUserVar[messagec;$sum[$getUserVar[messagec];1]]
 $if[$hasRole[$authorID;903678911391612958]==false]
     $if[$textLength<13]
