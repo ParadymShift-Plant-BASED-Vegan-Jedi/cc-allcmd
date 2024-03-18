@@ -24,11 +24,12 @@ $elseif[$getServerVar[cm]!=$month&&$getServerVar[90dc]>2]
     $setServerVar[cm;$month]
 $endelseif
 $endIf
-$if$getServerVar[uabid]!=$getUserVar[cab]]
+$if[$getServerVar[uabid]!=$getUserVar[cab]]
     $setUserVar[dac;1]
     $setUserVar[cab;$getServerVar[uabid]]
 $elseif[$getUserVar[curd]!=$day]
     $increaseUserVar[dac;1]
+    $setUserVar[dvat;0]
 $endelseif
 $endIf
 $setUserVar[messagec;$sum[$getUserVar[messagec];1]]
