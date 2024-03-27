@@ -91,3 +91,4 @@ $else
         $stop[Wrong channel $username. Try again Bozo. THIS channel <#$getUserVar[cid$authorID]>]
     $endIf
 $endIf
+// what
